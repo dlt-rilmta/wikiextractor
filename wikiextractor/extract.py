@@ -203,12 +203,14 @@ def compact(text, mark_headers=False):
         # Handle section titles
         m = section.match(line)
         if m:
-            title = m.group(2)
+            # title = m.group(2)
+            title = "\n " + m.group(1) + " " + m.group(2) + " " + m.group(1) + " \n"
             lev = len(m.group(1))
             if Extractor.HtmlFormatting:
                 page.append("<h%d>%s</h%d>" % (lev, title, lev))
             if title and title[-1] not in '!?':
-                title += '.'
+                # title += '.'
+                pass
 
             if mark_headers:
                 title = "## " + title
@@ -868,14 +870,14 @@ class Extractor():
             out.write(out_str)
             out.write('\n')
         else:
-            header = '<doc id="%s" url="%s" title="%s">\n' % (self.id, self.url, self.title)
+            # header = '<doc id="%s" url="%s" title="%s">\n' % (self.id, self.url, self.title)
             # Separate header from text with a newline.
-            header += self.title + '\n\n'
-            footer = "\n</doc>\n"
-            out.write(header)
-            out.write('\n'.join(text))
+            pagetitle = "\n\n = " + self.title + " = \n\n"
+            # footer = "\n</doc>\n"
+            out.write(pagetitle)
+            out.write('\n '.join(text))
             out.write('\n')
-            out.write(footer)
+            # out.write(footer)
 
         errs = (self.template_title_errs,
                 self.recursion_exceeded_1_errs,
